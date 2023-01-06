@@ -32,7 +32,7 @@ async function main() {
 	const bankContract = new ethers.Contract(BANK, contract.abi, signer);
 
 	await bankContract.deposit({
-		value: ethers.utils.parseEther("0.0006439"),
+		value: ethers.utils.parseEther("1"),
 	});
 }
 

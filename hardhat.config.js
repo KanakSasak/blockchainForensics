@@ -38,6 +38,7 @@ module.exports = {
 			accounts: [
 				`0xc7e1504b88e4427aa61ca1e3d2bedd49c40b2c051a3288331366ed7100d72989`,
 			],
+			allowUnlimitedContractSize: true,
 		},
 	},
 };

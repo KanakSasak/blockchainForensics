@@ -10,6 +10,9 @@ let PRIVATEKEY =
 	"0xc7e1504b88e4427aa61ca1e3d2bedd49c40b2c051a3288331366ed7100d72989";
 let API_KEY = "vZF-bLS5x-6QJAXdpq-LNZ4S2_TZi2_P";
 
+let PRIVATEKEYATTACK =
+	"0x8d7bf23ad10d0c4d1bdaf9168a7f447bfe9acadba1e7f43f960e30371522fdcf";
+
 async function main() {
 	const currentTimestampInSeconds = Math.round(Date.now() / 1000);
 	const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
@@ -23,6 +26,7 @@ async function main() {
 
 	// Signer
 	const signer = new ethers.Wallet(PRIVATEKEY, alchemyProvider);
+	const signerattack = new ethers.Wallet(PRIVATEKEYATTACK, alchemyProvider);
 
 	const [owner, addr1] = await ethers.getSigners(); //must use first signer
 	const [attacker2, addr2] = await ethers.getSigners(); //must use first signer
@@ -40,7 +44,7 @@ async function main() {
 
 	const AttackerFactory = await hre.ethers.getContractFactory(
 		"Attacker",
-		signer
+		signerattack
 	);
 	this.attackerContract = await AttackerFactory.deploy(
 		this.bankContract.address
@@ -53,8 +57,8 @@ async function main() {
 	console.log(
 		`Attacker deployed timestamp ${unlockTime} deployed to ${this.attackerContract.address}`
 	);
-	console.log(`${owner.address}`);
-	console.log(`${attacker2.address}`);
+	console.log(`${signer.address}`);
+	console.log(`${signerattack.address}`);
 	// console.log("");
 	// console.log("*** Before ***");
 	// console.log(
