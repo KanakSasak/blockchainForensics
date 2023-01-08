@@ -19,18 +19,25 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 module.exports = {
 	solidity: "0.8.4",
 	networks: {
-		local: {
-			//url: "https://polygon-mumbai.g.alchemy.com/v2/vZF-bLS5x-6QJAXdpq-LNZ4S2_TZi2_P",
+		hardhat: {
+			mining: {
+				auto: false,
+				interval: 0,
+				mempool: {
+					order: "priority",
+				},
+			},
+		},
+		hardhatx: {
 			url: "http://127.0.0.1:8545",
 			accounts: [
-				`0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80`,
+				`0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d`,
 			],
 		},
-		local2: {
-			//url: "https://polygon-mumbai.g.alchemy.com/v2/vZF-bLS5x-6QJAXdpq-LNZ4S2_TZi2_P",
+		ganache: {
 			url: "http://127.0.0.1:7545",
 			accounts: [
-				`0x1debfcaa92eb6048313d4e4576bc847324554bb8fce3de4c2fb9b67d285b9f16`,
+				`0x89a8a17751db1eb5faf578d8bd0debfc0c0d45712a8ab0720ebc98d9ac4021b1`,
 			],
 		},
 		mumbai: {

